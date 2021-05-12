@@ -6,6 +6,7 @@ import com.kamer.springbootuserregistration.service.ConfirmationTokenService;
 import com.kamer.springbootuserregistration.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,8 +26,9 @@ public class UserController {
 	private final ConfirmationTokenService confirmationTokenService;
 
 	@GetMapping("/sign-in")
-	String signIn() {
+	String signIn(Model model) {
 
+		model.addAttribute("user",new User());
 		return "sign-in";
 	}
 
@@ -39,7 +41,7 @@ public class UserController {
 	@GetMapping("/sign-up")
 	String signUpPage(User user) {
 
-		return "sign-up";
+		return "sign-in";
 	}
 
 	@PostMapping("/sign-up")
@@ -60,10 +62,6 @@ public class UserController {
 		return "redirect:/sign-in";
 	}
 
-	/*@GetMapping("/forgot-password")
-	public String goResetPassword(){
-		return "redirect:/forgot-password";
-	}*/
 
 	@RequestMapping(value="/forgot-password", method= RequestMethod.GET)
 	public ModelAndView displayResetPassword(ModelAndView modelAndView, User user) {

@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 /**
  * Created on September, 2019
@@ -22,14 +23,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private final UserService userService;
 
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-				.antMatchers("/sign-up/**", "/sign-in/**",
-						"/forgot-password/**","/confirm-reset/**",
-						"/reset-password/**","/update-password/**")
+				.antMatchers("/sign-up/**", "/sign-in/**", "/forgot-password/**","/confirm-reset/**",
+						"/reset-password/**","/update-password/**","/css/**","/js/**")
 				.permitAll()
 				.anyRequest()
 				.authenticated()

@@ -1,64 +1,135 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Spring Boot User Authentication</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fire UI CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@fire-ui/fire-ui@0.2.4/FireUI.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/resetPassword.css">
+    <!-- Fire UI Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/@fire-ui/fire-ui@0.2.4/FireUI.min.js"></script>
+    <title>Hello, world!</title>
 </head>
 <body>
-<form role="form" th:action="@{/sign-in}" th:method="post">
+<div class="topnav theme-reverse topnav-shadow">
+    <span class="topnav-brand">Navbar</span>
+    <span class="topnav-hamburger-menu" data-target = "myTopnav">&#x2630;</span>
+    <div class="topnav-right" id="myTopnav">
+        <a class="topnav-item" data-switch-theme="light, dark, aqua, sky, phoenix, indigo, teal">Switch theme</a>
+    </div>
+</div>
+<div id="form">
+    <div className="centeredForm">
+        <div class="box theme-reverse">
+            <div class="box">
+                <div class="tab" data-tab="formTab">
+                    <button class="tab-btn btn-dark" data-content="login">Login</button>
+                    <button class="tab-btn btn-light" data-content="register">Register</button>
+                </div>
+                <div class="tab-contents" id="formTab">
+                    <div id="login" class="tab-content tab-content-active">
+                        <form role="form" th:action="@{/sign-in}" th:method="post">
+                            <div class="form-group form-animate">
+                                <label for="login-username" class="form-label">Username</label>
+                                <input type="text" name="username" class="input-animate" id="login-username" required autocomplete="username">
+                            </div>
+                            <div class="form-group form-animate">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" name="password" class="input-animate" id="login-password" required autocomplete="current-password">
+                            </div>
+                            <!--div>
+                                <label class="form-label">Forgot password ?  <a href="/forgot-password">Reset</a></label>
+                            </div-->
+                            <div class="form-group">
+                                <button type="submit" class="btn form-control theme-adjust">Login</button>
 
-    <div th:if="${param.error}">
-        <div class="alert alert-danger">
-            Invalid username or password.
-        </div>
-    </div>
-    <div th:if="${param.logout}">
-        <div class="alert alert-info">
-            You have been logged out.
-        </div>
-    </div>
-    <div th:if="${message}" class="alert alert-info" th:text="${message}">
-    </div>
-    <div class="form-group">
-        <label for="username">User Email</label>:
-        <input type="text"
-               id="username"
-               name="username"
-               class="form-control"
-               autofocus="autofocus"
-               placeholder="email"/>
-    </div>
+                            </div>
+                        </form>
+                        <div>
+                            <label>Forgot password ? </label>
+                            <button class="open-button" onclick="openForm()">Reset</button>
+                        </div>
 
-    <div class="form-group">
-        <label for="password">Password</label>:
-        <input type="password"
-               id="password"
-               name="password"
-               class="form-control"
-               placeholder="Password"/>
-    </div>
+                        <div class="form-popup" id="myForm">
+                            <form action="#" th:action="@{/forgot-password}" th:object="${user}" method="post">
+                                <h1>Login</h1>
 
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <input type="submit"
-                       name="login-submit"
-                       id="login-submit"
-                       class="form-control btn btn-info"
-                       value="Log In"/>
+                                <label for="email"><b>Email</b></label>
+                                <input type="text" placeholder="Enter Email" name="email" required>
+
+
+                                <button type="submit" class="btn">Reset</button>
+                                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="register" class="tab-content">
+                        <div id="helloWorld" class="tab-content tab-content-active">
+                            <form role="form" th:action="@{/sign-up}" th:method="post" th:object="${user}">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group form-animate">
+                                            <label for="reg-name" class="form-label">Name</label>
+                                            <input type="text" name="name" class="input-animate" id="reg-name" required autocomplete="new-name" th:field="*{name}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group form-animate">
+                                            <label for="reg-surname" class="form-label">Surname</label>
+                                            <input type="text" class="input-animate" name="surname" id="reg-surname" required autocomplete="new-surname" th:field="*{surname}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-animate">
+                                    <label for="reg-username" class="form-label">email</label>
+                                    <input type="text" name="username" class="input-animate" id="reg-username" required autocomplete="username" th:field="*{email}">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group form-animate">
+                                            <label for="reg-password" class="form-label">Password</label>
+                                            <input type="password" name="password" class="input-animate" id="reg-password"
+                                                   required autocomplete="new-password" th:field="*{password}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group form-animate">
+                                            <label for="confirm-password" class="form-label">Confirm Password</label>
+                                            <input type="password" class="input-animate" id="confirm-password"
+                                                   required autocomplete="new-confirmpassword">
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" id="label" required>
+                                    <label for="label">By signing up, you agree to our <a href="#">Terms and Condition</a> and our <a href="#">Privacy Policy</a></label>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn form-control theme-adjust">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                </div>
             </div>
         </div>
+        <div class="mb-5"></div>
     </div>
-</form>
-
-<div class="form-group">
-    <span> RESET <a  href="/" th:href="@{/forgot-password}">reset</a> </span>
 </div>
 
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
 
-<div class="form-group">
-    <span>New user? <a href="/" th:href="@{/sign-up}">Register here</a></span>
-</div>
-
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+</script>
 
 </body>
 </html>
